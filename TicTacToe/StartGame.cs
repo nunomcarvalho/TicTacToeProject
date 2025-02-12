@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicTacToe;
 
-internal class StartGame
+public class StartGame
 {
     public void Start()
     {
@@ -14,13 +14,13 @@ internal class StartGame
         Player player = new Player();
         // keeps track of game moves
         Board board = new Board(3, 3);
-        // game status: 2 someone won, 1 draw match, 0 game still running
-        byte status = 0;
+        // game status
+        Board.EBoardStatus status = 0;
 
         while (true)
         {
             GameHeader();
-            board.ShowBoard();
+            Console.WriteLine(board.ShowBoard());
 
             var move = NextMove(player.Active);
             if(move == null) { continue; }
@@ -36,7 +36,7 @@ internal class StartGame
 
             status = board.SetMove(col, row, player.Mark);
 
-            if(status != 0) { break; }
+            if(status != Board.EBoardStatus.InProgess) { break; }
 
             player.NextPlayer();
         }
@@ -91,15 +91,15 @@ internal class StartGame
         return true;
     }
 
-    public void ShowStatus(byte status, int lastPlayer)
+    public void ShowStatus(Board.EBoardStatus status, int lastPlayer)
     {
         Console.WriteLine();
         switch (status)
         {
-            case 1:
+            case Board.EBoardStatus.Draw:
                 Console.WriteLine("We have a draw!!!");
                 break;
-            case 2:
+            case Board.EBoardStatus.GameWon:
                 Console.WriteLine($"Player {lastPlayer} WINS!!! Congratulations!!!");
                 break;
             default:

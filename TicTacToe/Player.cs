@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    internal class Player
+    public class Player
     {
         private readonly int _numberOfPlayers;
         private IList<string> _marks = new List<string>();

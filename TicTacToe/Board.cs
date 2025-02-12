@@ -6,22 +6,30 @@ using System.Threading.Tasks;
 
 namespace TicTacToe
 {
-    internal class Board
+    public class Board
     {
         private readonly string[,] _board;
+
+        public enum EBoardStatus
+        {
+            InvalidMove = 0,
+            InProgess = 1,
+            Draw = 2,
+            GameWon = 3
+        }
 
         public Board(int cols, int rows)
         {
             _board = new string[cols, rows];
         }
 
-        public void ShowBoard()
+        public string ShowBoard()
         {
             int cols = _board.GetLength(0);
             int rows = _board.GetLength(1);
 
-            Console.WriteLine("     |  1  |  2  |  3  ");
-            Console.WriteLine("-----------------------");
+            StringBuilder result = new StringBuilder("     |  1  |  2  |  3  ");
+            result.AppendLine("-----------------------");
 
             for (int c = 0; c < cols; c++)
             {
@@ -33,33 +41,35 @@ namespace TicTacToe
 
                     if (v + 1 != rows) { sb.Append("|"); }
                 }
-                Console.WriteLine(sb.ToString());
+                result.AppendLine(sb.ToString());
 
-                if (c + 1 != cols) { Console.WriteLine("-----------------------"); }
+                if (c + 1 != cols) { result.AppendLine("-----------------------"); }
             }
+
+            return result.ToString();
         }
 
         public bool ValidateMove(int col, int row)
         {
-            if(col > _board.GetLength(0)) { return false; }
-            if(row > _board.GetLength(1)) { return false; }
+            if(col >= _board.GetLength(0)) { return false; }
+            if(row >= _board.GetLength(1)) { return false; }
             return string.IsNullOrWhiteSpace(_board[col, row]);
         }
 
-        public byte SetMove(int col, int row, string mark)
+        public EBoardStatus SetMove(int col, int row, string mark)
         {
-            if (!ValidateMove(col, row)) { return 0; }
+            if (!ValidateMove(col, row)) { return EBoardStatus.InvalidMove; }
 
             _board[col, row] = mark;
 
             return BoardStatus();
         }
 
-        public byte BoardStatus()
+        public EBoardStatus BoardStatus()
         {
-            if (GameWon()) { return 2; }
-            if (IsDraw()) { return 1; }
-            return 0;
+            if (GameWon()) { return EBoardStatus.GameWon; }
+            if (IsDraw()) { return EBoardStatus.Draw; }
+            return EBoardStatus.InProgess;
         }
 
         public bool IsDraw()
