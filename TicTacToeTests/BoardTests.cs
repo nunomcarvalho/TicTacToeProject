@@ -59,5 +59,83 @@ namespace TicTacToeTests
 
             Assert.That(result, Is.EqualTo(Board.EBoardStatus.GameWon));
         }
+
+        [Test]
+        public void Test_AreAllElementsInRowEqual_ShouldReturnTrueWhenAllAreEqual()
+        {
+            // moq values
+            _board.SetMove(0, 0, "X");
+            _board.SetMove(1, 0, "X");
+            _board.SetMove(2, 0, "X");
+
+            var result = _board.AreAllElementsInRowEqual(0);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Test_AreAllElementsInRowEqual_ShouldReturnFalseWhenSomeAreDifferent()
+        {
+            // moq values
+            _board.SetMove(0, 0, "X");
+            _board.SetMove(1, 0, "Y");
+            _board.SetMove(2, 0, "X");
+
+            var result = _board.AreAllElementsInRowEqual(0);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void Test_AreAllElementsInColumnEqual_ShouldReturnTrueWhenAllAreEqual()
+        {
+            // moq values
+            _board.SetMove(0, 0, "X");
+            _board.SetMove(0, 1, "X");
+            _board.SetMove(0, 2, "X");
+
+            var result = _board.AreAllElementsInColumnEqual(0);
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Test_AreAllElementsInColumnEqual_ShouldReturnFalseWhenSomeAreDifferent()
+        {
+            // moq values
+            _board.SetMove(0, 0, "X");
+            _board.SetMove(0, 1, "Y");
+            _board.SetMove(0, 2, "X");
+
+            var result = _board.AreAllElementsInColumnEqual(0);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void Test_AreAllElementsInDiagonalEqual_ShouldReturnTrueWhenAllAreEqualLeft()
+        {
+            // moq values
+            _board.SetMove(0, 0, "X");
+            _board.SetMove(1, 1, "X");
+            _board.SetMove(2, 2, "X");
+
+            var result = _board.AreAllDiagonalElementsEqual();
+
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+        public void Test_AreAllElementsInDiagonalEqual_ShouldReturnTrueWhenAllAreEqualRight()
+        {
+            // moq values
+            _board.SetMove(0, 2, "X");
+            _board.SetMove(1, 1, "X");
+            _board.SetMove(2, 0, "X");
+
+            var result = _board.AreAllDiagonalElementsEqual();
+
+            Assert.That(result, Is.True);
+        }
     }
 }
