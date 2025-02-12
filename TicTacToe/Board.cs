@@ -79,10 +79,7 @@ namespace TicTacToe
 
         public bool GameWon()
         {
-            if (AreAllElementsInRowEqual()) { return true; }
-            if (AreAllElementsInColumnEqual()) { return true; }
-            if (AreAllDiagonalElementsEqual()) { return true; }
-            return false;
+            return AreAllElementsInRowEqual() || AreAllElementsInColumnEqual() || AreAllDiagonalElementsEqual();
         }
 
         public bool AreAllElementsInRowEqual()
@@ -147,9 +144,7 @@ namespace TicTacToe
 
         public bool AreAllDiagonalElementsEqual()
         {
-            if (CheckLeftDiagonal()) { return true; }
-            if (CheckRightDiagonal()) { return true; }
-            return false;
+            return CheckLeftDiagonal() || CheckRightDiagonal();
         }
 
         public bool CheckLeftDiagonal()
